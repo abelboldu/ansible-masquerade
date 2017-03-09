@@ -4,7 +4,6 @@
   iptables:
     table: nat
     chain: POSTROUTING
-    in_interface: '{{ masquerade_in_interface }}'
     out_interface: '{{ masquerade_out_interface }}'
     source: '{{ masquerade_source }}'
     destination: '{{ masquerade_destination }}'

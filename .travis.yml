@@ -38,5 +38,9 @@ script:
   # Detect idempotence failure.
   - 'tail -n 1 ansible.log | grep -Eq "changed=0 +unreachable=0 +failed=0"'
 
+  # Check if it's applied
+  - 'sudo iptables -L -t nat | grep -Eq "Ansible NAT Masquerade"'
+  - 'sudo sysctl net.ipv4.ip_forward | grep -Eq "net.ipv4.ip_forward = 1"'
+
 notifications:
   webhooks: 'https://galaxy.ansible.com/api/v1/notifications/'
