@@ -1,0 +1,20 @@
+---
+
+- name: Create Iptables NAT chain
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    in_interface: '{{ masquerade_in_interface }}'
+    out_interface: '{{ masquerade_out_interface }}'
+    source: '{{ masquerade_source }}'
+    destination: '{{ masquerade_destination }}'
+    jump: MASQUERADE
+    protocol: '{{ masquerade_protocol }}'
+    comment: Ansible NAT Masquerade
+
+- name: Enable IPv4 forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
+    reload: True
