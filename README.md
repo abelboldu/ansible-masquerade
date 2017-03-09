@@ -1,5 +1,5 @@
-masquerade
-==========
+:performing_arts: masquerade
+============
 
 A very simple Ansible role to enable iptables masquerading and IP forwarding on a host, to use it as a NAT Gateway for example.
 
@@ -32,6 +32,7 @@ Example Playbook
       roles:
          - role: abelboldu.masquerade
            masquerade_source: '10.1.0.0/16'
+           masquerade_protocol: 'tcp'
 
 
 License

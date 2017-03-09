@@ -1,0 +1,42 @@
+---
+dist: 'trusty'
+
+env:
+  global:
+    - ANSIBLE_FORCE_COLOR: True
+    - ANSIBLE_LOG_PATH: './ansible.log'
+    - ANSIBLE_ROLES_PATH: '../'
+
+language: 'python'
+
+python:
+  - '2.7'
+
+sudo: 'required'
+
+install:
+  # Install test requirements
+  - 'pip install -r requirements-devel.txt'
+  - |
+    if [ -f tests/requirements.yml ]; then
+      ansible-galaxy install -r tests/requirements.yml
+    fi
+
+script:
+  # Check syntax of YAML files.
+  - 'yamllint -c .yamllint.conf .'
+
+  # Check syntax of role.
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --syntax-check'
+
+  # Run role.
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --diff --verbose'
+
+  # Run role again to check idempotence failure.
+  - 'ansible-playbook -i localhost, -c local tests/test.yml --diff --verbose'
+
+  # Detect idempotence failure.
+  - 'tail -n 1 ansible.log | grep -Eq "changed=0 +unreachable=0 +failed=0"'
+
+notifications:
+  webhooks: 'https://galaxy.ansible.com/api/v1/notifications/'
