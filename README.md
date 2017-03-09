@@ -14,7 +14,6 @@ Role Variables
 | Var                          |                     Default value |
 |------------------------------|----------------------------------:|
 |masquerade_outbound_interface |{{ ansible_default_ipv4.address }} |
-|masquerade_inbound_interface  |                                 * |
 |masquerade_source             |                        0.0.0.0/0  |
 |masquerade_dest               |                        0.0.0.0/0  |
 |masquerade_protocol           |                               all |
